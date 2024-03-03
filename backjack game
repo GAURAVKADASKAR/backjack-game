@@ -1,0 +1,114 @@
+
+import random
+from random import shuffle
+class BlackJack:
+    def __init__(aj):
+        aj.l=['A',2,3,4,5,6,7,8,9,10,'J','Q','K']*4
+        shuffle(aj.l)
+        aj.dealer_Cards = []
+        aj.player_Cards = []
+        aj.psum=aj.dsum=0
+        aj.wish=None
+        
+    def board(aj):
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
+        print("---------------Black Jack--------------")
+        print(">>>>>>>GAME 21<<<<<<<<")
+        print("$$$$$$$$$$$$$$$$$$$$$$$$$$")
+
+    def numGenerate(aj):
+        aj.dealer_Cards.append(aj.l.pop())
+        aj.dealer_Cards.append(aj.l.pop())
+        aj.player_Cards.append(aj.l.pop())
+        aj.player_Cards.append(aj.l.pop())
+
+        print("Delars Cards:",end='')
+        print(" ",aj.dealer_Cards[0])
+        print("Player Cards:",end='')
+        print(" ",aj.player_Cards)
+
+        print(aj.l)
+
+    def numSum(aj):
+        aj.dsum=aj.psum=0
+        print("Dealers Sum: ",end='')
+        for i in range(len(aj.dealer_Cards)):
+            if aj.dealer_Cards[i]=='A':
+                if aj.dsum>11:
+                    aj.dealer_Cards[i]=1
+                else:
+                    aj.dealer_Cards[i]=11
+            elif aj.dealer_Cards[i]=='J' or aj.dealer_Cards[i]=='Q' or aj.dealer_Cards[i]=='K':
+                aj.dealer_Cards[i]=10
+            aj.dsum=aj.dsum+int(aj.dealer_Cards[i])
+        print(" ",aj.dsum)
+
+        print("Players Sum: ",end='')
+        for i in range(len(aj.player_Cards)):
+            if aj.player_Cards[i]=='A':
+                if aj.psum>11:
+                    aj.player_Cards[i]=1
+                else:
+                    aj.player_Cards[i]=11
+            elif aj.player_Cards[i]=='J' or aj.player_Cards[i]=='Q' or aj.player_Cards[i]=='K':
+                aj.player_Cards[i]=10
+            aj.psum=aj.psum+int(aj.player_Cards[i])
+        print(" ",aj.psum)    
+
+    def winCon(aj):
+        if aj.psum==21:
+            print("Player Wins...")
+            exit()
+        elif aj.dsum==21:
+            print("Dealer Wins....")
+            exit()
+        if aj.psum>21 or aj.dsum>21:
+            if aj.psum>21 and aj.psum>aj.dsum:
+                print("Player Busted!!!")
+                exit()
+            elif aj.dsum>21 and aj.dsum>aj.psum:
+                print("Dealer Busted!!!")
+                exit()
+            elif aj.psum>21:
+                print("Player Busted!!!")
+                exit()
+            elif aj.dsum>21:
+                print("Dealer Busted!!!")
+                exit()
+            
+    def choice(aj):
+        print("Enter Your Wish : 0 For Stay or 1 For Hit")
+        aj.wish=int(input())
+        if aj.wish==0:
+            if aj.psum>aj.dsum:
+                print("Player Wins....")
+                exit()
+            else:
+                print("Dealer Wins....")
+                exit()
+        elif aj.wish==1:
+                aj.player_Cards.append(aj.l.pop())
+                aj.dealer_Cards.append(aj.l.pop())
+                print("Dealer Card",aj.dealer_Cards[0])
+                print("Player Card",aj.player_Cards)
+                aj.numSum()
+                aj.checkCon()
+        else:
+                print("Invalid Value!!!")
+
+
+    def checkCon(aj):
+        if aj.psum>=21 or aj.dsum>=21:
+            if aj.psum==21 and aj.dsum==21:
+                print("Play again...")
+            else:
+                aj.winCon()
+        else:
+            aj.choice()
+        
+obj = BlackJack()
+obj.board()
+obj.numGenerate()
+obj.numSum()
+obj.checkCon()
+
